@@ -3,14 +3,17 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import pytest
+import os
 from datetime import datetime, timedelta
 from app import create_app, db
 from app.models import Flight, Booking
+
 @pytest.fixture
 def app():
+    os.environ['DATABASE_URL'] = 'postgresql://airline_user:airline_password@localhost:5432/airline_db_test'
     app = create_app()
     app.config['TESTING'] = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://airline_user:airline_password@db:5432/airline_db'    
+
     with app.app_context():
         db.create_all()
         yield app
