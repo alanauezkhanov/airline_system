@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Error</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'flights/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Error</h1>
+        <div class="error-container">
+            <p>{{ error_message }}</p>
+            <form action="{% url 'index' %}" method="get">
+                <button type="submit" class="btn btn-secondary">Return to Homepage</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

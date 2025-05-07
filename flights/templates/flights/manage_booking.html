@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Booking</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'flights/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Manage My Booking</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Find My Booking</button>
+        </form>
+    </div>
+</body>
+</html>

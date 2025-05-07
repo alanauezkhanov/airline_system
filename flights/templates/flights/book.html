@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Flight</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'flights/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Book Flight {{ flight }}</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Book</button>
+        </form>
+        <form action="{% url 'index' %}" method="get" style="display: inline;">
+            <button type="submit" class="btn btn-secondary">Back to all flights</button>
+        </form>
+    </div>
+</body>
+</html>

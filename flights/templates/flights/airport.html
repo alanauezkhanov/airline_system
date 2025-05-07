@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Airport</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'flights/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Airport: {{ airport }}</h1>
+        <h2>Departures</h2>
+        <ul>
+            {% for departure in departures %}
+            <li><a href="{% url 'flight' departure.id %}">{{ departure }}</a></li>
+            {% endfor %}
+        </ul>
+        <h2>Arrivals</h2>
+        <ul>
+            {% for arrival in arrivals %}
+            <li><a href="{% url 'flight' arrival.id %}">{{ arrival }}</a></li>
+            {% endfor %}
+        </ul>
+        <form action="{% url 'index' %}" method="get" style="display: inline;">
+            <button type="submit" class="btn btn-secondary">Return to Homepage</button>
+        </form>
+    </div>
+</body>
+</html>

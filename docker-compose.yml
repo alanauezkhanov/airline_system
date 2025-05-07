@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_APP=app
+      - FLASK_ENV=development
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - airline_network
+    command: >
+      sh -c "python app/init_db.py &&
+             gunicorn --bind 0.0.0.0:5000 app:create_app()"
+
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=airline_user
+      - POSTGRES_PASSWORD=airline_password
+      - POSTGRES_DB=airline_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - airline_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airline_user -d airline_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - airline_network
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    networks:
+      - airline_network
+
+networks:
+  airline_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  grafana_data: 

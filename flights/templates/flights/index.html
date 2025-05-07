@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Airline Reservation System</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'flights/styles.css' %}">
+</head>
+<body>
+    <h1>Airline Reservation System<img src="{% static 'flights/images/ticket.png' %}" class="airport-icon"></h1>
+    <h1><img src="{% static 'flights/images/airplane.png' %}" class="airplane-icon"></h1>
+    <h2>Available Flights</h2>
+    <table class="flight-table">
+        <thead>
+            <tr>
+                <th>Origin</th>
+                <th>Destination</th>
+                <th>Duration</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for flight in flights %}
+            <tr>
+                <td><a href="{% url 'flight' flight.id %}">{{ flight.origin }}</a></td>
+                <td><a href="{% url 'flight' flight.id %}">{{ flight.destination }}</a></td>
+                <td>{{ flight.duration }} min</td>
+                <td><a href="{% url 'flight' flight.id %}">View</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Airports <img src="{% static 'flights/images/air.png' %}" class="airport-icon"></h2>
+    <div class="airport-grid">
+        {% for airport in airports %}
+        <div class="airport-item">
+            <img src="{% static 'flights/images/' %}{{ airport.code }}.jpg" alt="{{ airport }}" class="airport-image">
+            <h3><a href="{% url 'airport' airport.code %}">{{ airport }}</a></h3>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="manage-booking">
+        <a href="{% url 'manage_booking' %}" class="booking-button">
+            Manage My Booking
+            <img src="{% static 'flights/images/Lupa.png' %}" alt="Search Icon" class="search-icon">
+        </a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flight Details</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'flights/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Flight Details</h1>
+        <p>Flight: {{ flight }}</p>
+        <p>Capacity: {{ flight.capacity }}</p>
+        <p>Available Seats: {{ flight.available_seats }}</p>
+
+        <h2>Booked Passengers</h2>
+        <ul>
+            {% for booking in bookings %}
+            <li>{{ booking.passenger.first_name }} {{ booking.passenger.last_name }} - {{ booking.passenger.email }}</li>
+            {% endfor %}
+        </ul>
+        <form action="{% url 'book' flight.id %}" method="get" style="display: inline;">
+            <button type="submit" class="btn btn-primary">Book this flight</button>
+        </form>
+        <form action="{% url 'index' %}" method="get" style="display: inline;">
+            <button type="submit" class="btn btn-secondary">Back to all flights</button>
+        </form>
+    </div>
+</body>
+</html>

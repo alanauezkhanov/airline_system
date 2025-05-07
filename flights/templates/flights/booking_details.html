@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Booking Details</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'flights/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Booking Details</h1>
+        <p>Passenger: {{ booking.passenger.first_name }} {{ booking.passenger.last_name }}</p>
+        <p>Email: {{ booking.passenger.email }}</p>
+        <p>Flight: {{ booking.flight }}</p>
+        <p>Duration: {{ booking.flight.duration }} min</p>
+        <p>Booking Code: {{ booking.booking_code }}</p>
+        <form action="{% url 'index' %}" method="get" style="display: inline;">
+            <button type="submit" class="btn btn-secondary">Return to Homepage</button>
+        </form>
+    </div>
+</body>
+</html>
