@@ -38,9 +38,9 @@ airline_system/
 │   │   ├── __init__.py
 │   │   └── routes.py
 │   ├── models.py
-│   ├── templates/
-│   └── static/
+│   └── init_db.py
 ├── tests/
+│   └── test_api.py
 ├── .github/
 │   └── workflows/
 │       └── ci.yml
