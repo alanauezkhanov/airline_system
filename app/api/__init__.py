@@ -3,14 +3,10 @@ import time
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from prometheus_client import Counter, Histogram
+from prometheus_client import Counter, Histogram, REGISTRY
 
 db = SQLAlchemy()
 migrate = Migrate()
-
-# Prometheus metrics
-REQUEST_COUNT = Counter('http_requests_total', 'Total HTTP requests', ['method', 'endpoint', 'status'])
-REQUEST_LATENCY = Histogram('http_request_duration_seconds', 'HTTP request latency')
 
 def create_app():
     app = Flask(__name__)
@@ -22,15 +18,18 @@ def create_app():
     )
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    # Initialize extensions
     db.init_app(app)
     migrate.init_app(app, db)
 
-    # Register blueprints
+    # Prometheus metrics (регистрируем только если ещё не зарегистрированы)
+    if not any(m.name == 'http_requests_total' for m in REGISTRY.collect()):
+        global REQUEST_COUNT, REQUEST_LATENCY
+        REQUEST_COUNT = Counter('http_requests_total', 'Total HTTP requests', ['method', 'endpoint', 'status'])
+        REQUEST_LATENCY = Histogram('http_request_duration_seconds', 'HTTP request latency')
+
     from app.api import bp as api_bp
     app.register_blueprint(api_bp, url_prefix='/api')
 
-    # Add middleware for Prometheus metrics
     @app.before_request
     def before_request():
         request.start_time = time.time()
