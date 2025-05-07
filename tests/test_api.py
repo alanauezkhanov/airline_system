@@ -1,8 +1,11 @@
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import pytest
 from datetime import datetime, timedelta
 from app import create_app, db
 from app.models import Flight, Booking
-
 @pytest.fixture
 def app():
     app = create_app()
