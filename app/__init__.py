@@ -21,10 +21,13 @@ def create_app():
     # Initialize extensions
     db.init_app(app)
     migrate.init_app(app, db)
+
+    @app.route('/api/flights', methods=['GET'])
+    def get_flights():
     
     # Register blueprints
-    from app.api import bp as api_bp
-    app.register_blueprint(api_bp, url_prefix='/api')
+    # from app.api import bp as api_bp
+    # app.register_blueprint(api_bp, url_prefix='/api')
     
     # Add middleware for Prometheus metrics
     @app.before_request
